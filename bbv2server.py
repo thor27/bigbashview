@@ -1,71 +1,55 @@
 import web
-import subprocess
-import shlex
-import os
 import sys
 import socket
 import threading
-from urlparse import parse_qs
+import globaldata
+import inspect
+import views
 
-class url_handler:
-    def GET(self, name=''):
-        qs = parse_qs(web.ctx.query[1:])
-        return self.called(name,qs)
+class Server(threading.Thread):
+    def _get_subclasses(self, classes=None):
+        """ Get subclasses recursively """
+        if classes is None:
+            classes = views.url_handler.__subclasses__()
+        result = classes
+        for cls in classes:
+            result += self._get_subclasses(cls.__subclasses__())
+        return result
+        
+    def get_urls(self):
+        """ Return supported URLs. """
+        classes = self._get_subclasses()
+        result = []
+        for cls in classes:
+            result.append(cls.__url__)
+            result.append(cls.__name__)
+        return tuple(result)
     
-    def POST(self, name=''):
-        qs = parse_qs(web.data())
-        return self.called(name,qs)
+    def get_classes(self):
+        """ Return all view classes. """
+        classes = self._get_subclasses()
+        result = {}
+        for cls in classes:
+            result[cls.__name__] = cls
+        return result
     
-    def called(self,options,query):
-        raise NotImplementedError
-
-class about(url_handler):
-    def called(self,options,query):
-        return '<html><body><h1>Welcome to BigBashView 2!</h1></body></body>'
-
-class content(url_handler):        
-    def called(self,options,query):
-        with open(options) as arq:
-            return arq.read()
-
-class execute(url_handler):
-    def get_env(self,query, prefix='p_'):
-        join_options = lambda opt: (prefix+opt[0],";".join([x.replace(';','\;') for x in opt[1]]))
-        return dict(map(join_options, query.items()))
-        
-    def _execute(self, command, wait=False, extra_env={}):
-        env = os.environ
-        env.update(extra_env)
-        
-        po = subprocess.Popen(command, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
-        if wait:
-            return po.communicate()    
-            
-    def called(self,options,query):         
-        (stdout, stderr) = self._execute(options, wait=True,extra_env=self.get_env(query))
-        return stdout
-        
-class execute_background(execute):        
-    def called(self,options,query):
-        self._execute(options,extra_env=self.get_env(query))
-        return ''
-
-class Server ( threading.Thread ):
     def run(self):
-        urls = (
-            '/content\$(.*)', 'content',
-            '/execute\$(.*)', 'execute', 
-            '/execute_background\$(.*)', 'execute_background',  
-            '/', 'about', 
-        )
-        app = web.application(urls, globals())
-        web.config.debug = False
+        """ Run the webserver """
+        ip = globaldata.ip()
+        port = globaldata.port()
+        sys.argv = [ sys.argv[0], '' ]
+        sys.argv[1] = ':'.join((ip,str(port)))
+        
+        urls = self.get_urls()
+        classes = self.get_classes()
+        
+        app = web.application(urls, classes)
         app.run()
         
     def stop(self):
         pass
 
-def run_server(ip='127.0.0.1'):
+def run_server(ip='127.0.0.1',background=True):
     soc = socket.socket()
     for port in range(9000,9100):
         try:
@@ -77,11 +61,18 @@ def run_server(ip='127.0.0.1'):
                 raise socket.error(e)
             print 'Port %d already in use, trying next one' %port
     
-    sys.argv = [ sys.argv[0], '' ]
-    sys.argv[1] = ':'.join((ip,str(port)))
-    thread = Server()
-    thread.daemon = True
-    thread.start()
+    globaldata.ip = lambda: ip
+    globaldata.port = lambda: port
+    
+    server = Server()
+    
+    if background:
+        server.daemon = True
+        web.config.debug = False
+        server.start()
+    else:
+        web.config.debug = True
+        server.run()
 
 if __name__ == "__main__":
-    run_server()
+    run_server(background=False)
