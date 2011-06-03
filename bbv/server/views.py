@@ -23,7 +23,7 @@ class url_handler(object):
 
 class about(url_handler):
     def called(self,options,query):
-        return '<html><body><h1>Welcome to BigBashView 2!</h1></body></body>'
+        return '<html><body><h1>Welcome to BigBashView 2!</h1></body></html>'
 
 class content(url_handler):        
     __url__='/content\$(.*)'
@@ -40,11 +40,11 @@ class execute(url_handler):
         
     def _execute(self, command, wait=False, extra_env={}):
         env = os.environ.copy()
-        env['bbv_ip']=globaldata.ip()
-        env['bbv_port']=globaldata.port()
+        env['bbv_ip']=str(globaldata.ip())
+        env['bbv_port']=str(globaldata.port())
         env.update(extra_env)
         
-        po = subprocess.Popen(command, stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
+        po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
         if wait:
             return po.communicate()    
             

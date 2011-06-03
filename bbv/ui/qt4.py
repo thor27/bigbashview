@@ -31,14 +31,12 @@ from bbv.ui.base import BaseWindow
 class Window(BaseWindow):
     def __init__(self):
         self.debug=1
-        self.BashLoaded=False
-        self.FrameVector=[]
         self.app = QApplication(sys.argv)
         self.desktop= QApplication.desktop()
         self.web = QWebView()
         self.icon = QIcon()
         QWebSettings.setIconDatabasePath(DATA_DIR) 
-        self.web.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
+        #self.web.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
         
         QObject.connect(self.web, 
                         SIGNAL("titleChanged ( const QString &)"),

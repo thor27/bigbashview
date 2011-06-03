@@ -22,8 +22,10 @@ import sys
 import os
 import getopt
 import re
+import time
 
 from bbv.globals import *
+from bbv.server.bbv2server import run_server
 
 class Main:
     width = -1
@@ -151,9 +153,10 @@ class Main:
         sys.exit()
         
     def run(self):
+        run_server()
+        time.sleep(1)
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
         self.window.load_url(self.url)
         self.window.set_icon(self.icon)
-	
         sys.exit(self.window.run())

@@ -46,7 +46,6 @@ class Server(threading.Thread):
         
         urls = self.get_urls()
         classes = self.get_classes()
-        
         app = web.application(urls, classes)
         app.run()
         
