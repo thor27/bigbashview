@@ -24,7 +24,7 @@ import getopt
 import re
 import time
 
-from bbv.globals import *
+from bbv import globals as globaldata
 from bbv.server.bbv2server import run_server
 
 class Main:
@@ -33,7 +33,7 @@ class Main:
     toolkit = "auto"
     url = "./exemplo.sh"
     window_state="normal"
-    icon = DEFAULT_ICON
+    icon = globaldata.DEFAULT_ICON
     
     def __init__(self):
         try:
@@ -54,7 +54,7 @@ class Main:
                 self.help()
     
             elif o in ('-v','--version'):
-                print APP_NAME, APP_VERSION
+                print globaldata.APP_NAME, globaldata.APP_VERSION
                 sys.exit()
             
             elif o in ('-s', '--screen'):
@@ -86,8 +86,8 @@ class Main:
 		    self.icon=a
 	    
         #Create data folder if doesn't exists...
-	if not os.path.isdir(DATA_DIR):
-	    os.mkdir(DATA_DIR)
+	if not os.path.isdir(globaldata.DATA_DIR):
+	    os.mkdir(globaldata.DATA_DIR)
         
         #construct window
         if self.toolkit == "auto":
@@ -158,8 +158,7 @@ class Main:
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
         if self.url.find('://') == -1:
-            self.url = "http://%s:%s/%s" %(ADDRESS(),PORT(),self.url)
-        print self.url
+            self.url = "http://%s:%s/%s" %(globaldata.ADDRESS(),globaldata.PORT(),self.url)
         self.window.load_url(self.url)
         self.window.set_icon(self.icon)
         sys.exit(self.window.run())
