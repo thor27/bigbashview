@@ -1,8 +1,11 @@
 from urlparse import parse_qs
 import subprocess
 import os
-import globaldata
 import web
+try:
+    from bbv import globals as globaldata
+except ImportError:
+    import globaldata
 
 class url_handler(object):
     __url__ = '/'

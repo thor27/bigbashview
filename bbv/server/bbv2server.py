@@ -2,9 +2,13 @@ import web
 import sys
 import socket
 import threading
-import globaldata
 import inspect
+
 import views
+try:
+    from bbv import globals as globaldata
+except ImportError:
+    import globaldata
 
 class Server(threading.Thread):
     def _get_subclasses(self, classes=None):
