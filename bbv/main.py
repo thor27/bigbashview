@@ -157,6 +157,9 @@ class Main:
         time.sleep(1)
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
+        if self.url.find('://') == -1:
+            self.url = "http://%s:%s/%s" %(ADDRESS(),PORT(),self.url)
+        print self.url
         self.window.load_url(self.url)
         self.window.set_icon(self.icon)
         sys.exit(self.window.run())

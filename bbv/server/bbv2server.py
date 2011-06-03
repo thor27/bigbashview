@@ -39,8 +39,8 @@ class Server(threading.Thread):
     
     def run(self):
         """ Run the webserver """
-        ip = globaldata.ip()
-        port = globaldata.port()
+        ip = globaldata.ADDRESS()
+        port = globaldata.PORT()
         sys.argv = [ sys.argv[0], '' ]
         sys.argv[1] = ':'.join((ip,str(port)))
         
@@ -64,8 +64,8 @@ def run_server(ip='127.0.0.1',background=True):
                 raise socket.error(e)
             print 'Port %d already in use, trying next one' %port
     
-    globaldata.ip = lambda: ip
-    globaldata.port = lambda: port
+    globaldata.ADDRESS = lambda: ip
+    globaldata.PORT = lambda: port
     
     server = Server()
     
