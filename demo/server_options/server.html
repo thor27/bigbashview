@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+        <script src="/content$jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){ 
+                $('#background-click').click(function(e){
+                    e.preventDefault();
+                    $.get($(this).attr('href'));
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Links que utilizam os recursos especiais do servidor do BBV</h1>
+        
+        <a href="/execute$./teste.sh"> executar o teste.sh</a><br/>
+        <a href="/content$./teste.sh"> exibe o conteúdo em html do teste.sh</a><br/>
+        <a href="/content plain$./teste.sh"> exibe o conteúdo em texto plano do teste.sh</a><br/>
+        <a href="/execute plain$./teste.sh"> executar o teste.sh e exibe o retorno como texto plano</a><br/>
+        <a href="/execute background$./teste2.sh" id='background-click'> executa o teste2.sh em background (utiliza js para evitar o redirecionamento)</a><br/>
+        
+    </body>
+</html>

@@ -1,0 +1,1 @@
+kdialog --msgbox 'ola mundo'
