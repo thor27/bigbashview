@@ -21,6 +21,6 @@ import os,sys
 APP_NAME = "Big Bash View"
 APP_VERSION = "2.0.1 (beta)"
 DATA_DIR = os.path.expanduser("~/.bigbashview") # TODO: Check portability issues
-DEFAULT_ICON = os.path.dirname(os.path.abspath(sys.argv[0]))+os.sep+"bbv"+os.sep+"img"+os.sep+"icone.png"
+ICON = os.path.dirname(os.path.abspath(sys.argv[0]))+os.sep+"bbv"+os.sep+"img"+os.sep+"icone.png"
 ADDRESS = lambda: '127.0.0.1'
 PORT = lambda: 9000

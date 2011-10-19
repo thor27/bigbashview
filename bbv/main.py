@@ -33,7 +33,7 @@ class Main:
     toolkit = "auto"
     url = "./exemplo.sh"
     window_state="normal"
-    icon = globaldata.DEFAULT_ICON
+    icon = globaldata.ICON
     
     def __init__(self):
         try:
@@ -81,9 +81,9 @@ class Main:
             elif o in ('-w','--window_state'):
                 if a in ("normal","maximized","fullscreen"):
                     self.window_state=a
-	    elif o in ('-i','--icon'):
-		if os.path.exists(a):
-		    self.icon=a
+            elif o in ('-i','--icon'):
+                if os.path.exists(a):
+                    self.globaldata.ICON = a
 	    
         #Create data folder if doesn't exists...
 	if not os.path.isdir(globaldata.DATA_DIR):
@@ -160,5 +160,5 @@ class Main:
         if self.url.find('://') == -1:
             self.url = "http://%s:%s/%s" %(globaldata.ADDRESS(),globaldata.PORT(),self.url)
         self.window.load_url(self.url)
-        self.window.set_icon(self.icon)
+        globaldata.ICON = self.icon
         sys.exit(self.window.run())

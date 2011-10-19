@@ -34,7 +34,7 @@ class Window(BaseWindow):
         self.app = QApplication(sys.argv)
         self.desktop= QApplication.desktop()
         self.web = QWebView()
-        self.icon = QIcon()
+        self.icon = QIcon(QString(ICON))
         QWebSettings.setIconDatabasePath(DATA_DIR) 
         #self.web.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
         
@@ -105,8 +105,10 @@ class Window(BaseWindow):
         sys.exit()
     
     def icon_changed(self):
-        self.web.setWindowIcon(self.icon)
-        self.web.setWindowIcon(self.web.icon())
+        if not self.icon.isNull():
+            self.web.setWindowIcon(self.icon)
+        if not self.web.icon().isNull():
+            self.web.setWindowIcon(self.web.icon())
             
     def title_changed(self, title):
         self.web.setWindowTitle(title)
@@ -115,10 +117,6 @@ class Window(BaseWindow):
         self.url=QUrl.fromEncoded(url)
         self.web.setUrl(self.url)
     
-    def set_icon(self,icon):
-        self.icon = QIcon(QString(icon))
-        self.web.setWindowIcon(self.icon)
-        
     def set_size(self,width, height):
         if width<=0:
             width=640
