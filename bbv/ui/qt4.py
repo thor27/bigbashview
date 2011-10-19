@@ -50,36 +50,7 @@ class Window(BaseWindow):
         QObject.connect(self.web.page(), 
                         SIGNAL("geometryChangeRequested ( const QRect)"),
                         self.set_geometry)
-
-    def config_tool_variables(self, url):
-        
-        sys_vars = os.environ.copy()
-        sys_vars["WINDOW_WIDTH"] = str(self.web.width())
-        sys_vars["WINDOW_HEIGHT"] = str(self.web.height())
-        sys_vars["SCREEN_WIDTH"] = str(self.desktop.width())
-        sys_vars["SCREEN_HEIGHT"] = str(self.desktop.height())
-        sys_vars["CT_PID"] = str(os.getpid())
-        
-        sys_var_list="\""
-        parameters = []
-        plist = []
-        
-        for parameter in url.queryItems():
-            var_name = "p_" + parameter[0].__str__().decode("utf-8")
-            var_content = parameter[1].__str__().decode("utf-8")
-            sys_vars[var_name] = var_content
-            
-            plist.append(var_name)
-            parameters.append(" " + parameter[0].__str__() + " " + parameter[1].__str__() + "")
-        
-        sys_vars["plist"] = "\"" + ", ".join(plist) + "\" "
-        
-        variables={}
-        variables["sys_var"]=sys_vars
-        variables["parameters"]=parameters
-        
-        return variables
-        
+    
     def show(self,window_state):
         if window_state == "maximized" and not self.web.isMaximized():
             self.web.showNormal()
