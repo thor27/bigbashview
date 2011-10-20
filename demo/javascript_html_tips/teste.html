@@ -32,7 +32,8 @@
                     window.close();
                 });
                 
-                $('#background-click').click(function(e){
+                 //Não redireciona a pagina para os links com class noredirect
+                $('.noredirect').click(function(e){
                     e.preventDefault();
                     $.get($(this).attr('href'));
                 });
@@ -48,6 +49,6 @@
         <a href='#' id='tamanhojanela'>Alterar o tamanho da janela</a><br/>
         <a href='#' id='posicaojanela'>Alterar a posição da janela</a><br/>
         <a href='#' id='fecharjanela'>Fechar a janela</a><br/>
-        <a href="/execute background$./teste2.sh" id='background-click'> executa o teste2.sh em background (utiliza js para evitar o redirecionamento)</a><br/>
+        <a href="/execute background$./teste2.sh" class='noredirect'> executa o teste2.sh em background (utiliza js para evitar o redirecionamento)</a><br/>
     </body>
 </html>
