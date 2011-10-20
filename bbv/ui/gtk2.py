@@ -30,18 +30,47 @@ from bbv.ui.base import BaseWindow
 
 class Window(BaseWindow):
     def __init__(self):
-        raise NotImplementedError
         self.window = gtk.Window()
         self.webview = webkit.WebView()
         self.window.add(self.webview)
         self.webview.show()
         self.webview.connect("title_changed", self.title_changed)
-        self.webview.connect("link_clicked", self.link_clicked)
-    
+        self.webview.connect("icon-loaded", self.icon_changed)
+        self.webview.connect("close-web-view", self.close_window)
+        self.window.connect("destroy-event", self.close_window)
+        self.window.connect("delete-event", self.close_window)
+        
+        #self.webview.connect("icon_changed", self.icon_clicked)
+
+    def show(self, *args):
+        #TODO Change window state when called
+        self.window.show()
+        
     def run(self):
         gtk.main()
         return 0
+        
+    def set_debug(self, debuglevel):
+        self.debug=debuglevel
+        
+    def set_geometry(self):
+        #TODO Need to find a signal for this
+        pass
+
+    def close_window(self, *args):
+        sys.exit()
     
+    def icon_changed(self, *args):
+        #TODO Implement this method
+        pass
+
+    def title_changed(self, widget, frame, title):
+        self.window.set_title(title)
+
+    def load_url(self, url):
+        self.webview.open(url)
+        print url
+        
     def set_size(self, width, height):
         if width<=0:
             width=640
@@ -49,98 +78,7 @@ class Window(BaseWindow):
             height=480
         
         self.window.resize(width, height)
-    
-    def show(self, *args):
-        self.window.show()
-    
-    def load_url(self, url):
-        self.webview.open(url)
-        print url
-        self.url_verify(url)
-    
-    def set_icon(self, *args):
-        pass
-    
-    def title_changed(self, widget, frame, title):
-        self.window.set_title(title)
-    
-    def link_clicked(self, *args):
-        print args
-    
-    def url_verify(self, url):
+
+
+
         
-        if url and url.endswith(".sh"):
-            self.BashLoaded = True
-            sys_var=self.config_tool_variables()
-            sys_var_list="plist=\""
-            parameters=""
-            #for parameter in url.queryItems():
-            #    var_name="p_"+parameter[0].__str__()
-            #    var_content=parameter[1].__str__()
-            #    sys_var+=var_name+"=\""+var_content+"\" "
-            #    sys_var_list+=var_name+","
-            #    parameters+=" \"--"+parameter[0].__str__()+"\" \""+parameter[1].__str__()+"\""
-            sys_var_list+="\" "
-            sys_var+=sys_var_list
-            
-            stdout_handle = os.popen(sys_var+url.__str__()+parameters, "r")
-            HTML=stdout_handle.read().decode("utf-8")
-            parser = HTMLParser(HTML)
-            HTML=parser.run(self)
-            self.webview.load_html_string(HTML, os.path.abspath(url))
-        elif file_path:
-            self.webview.open(file_path)
-    
-    def config_tool_variables(self):
-        
-        
-        
-        sys_var = ""
-        sys_var += "WINDOW_WIDTH=" + str(width) + " "
-        sys_var += "WINDOW_HEIGHT=" + str(height) + " "
-        
-        screen = self.window.get_screen()
-        width = screen.get_width()
-        height = screen.get_height()
-        
-        sys_var += "SCREEN_WIDTH=" + str(width) + " "
-        sys_var += "SCREEN_HEIGHT=" + str(height) + " "
-        sys_var += "CT_PID=" + str(os.getpid()) + " "
-        return sys_var
-    
-    def config_tool_variables(self, url):
-        
-        sys_vars = os.environ.copy()
-        
-        width, height = self.window.get_size()
-        
-        sys_vars["WINDOW_WIDTH"] = str(width)
-        sys_vars["WINDOW_HEIGHT"] = str(height)
-        
-        screen = self.window.get_screen()
-        width = screen.get_width()
-        height = screen.get_height()
-        
-        sys_vars["SCREEN_WIDTH"] = str(width)
-        sys_vars["SCREEN_HEIGHT"] = str(height)
-        sys_vars["CT_PID"] = str(os.getpid())
-        
-        sys_var_list="\""
-        parameters = ""
-        plist = []
-        
-        for parameter in url.queryItems():
-            var_name = "p_" + parameter[0].__str__()
-            var_content = parameter[1].__str__()
-            sys_vars[var_name] = var_content
-            
-            plist.append(var_name)
-            parameters += " \"--" + parameter[0].__str__() + "\" \"" + parameter[1].__str__() + "\""
-        
-        sys_vars["plist"] = "\"" + ", ".join(plist) + "\" "
-        
-        variables={}
-        variables["sys_var"]=sys_vars
-        variables["parameters"]=parameters
-        
-        return variables
