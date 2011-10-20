@@ -2,6 +2,7 @@ from urlparse import parse_qs
 import subprocess
 import os
 import web
+
 try:
     from bbv import globals as globaldata
 except ImportError:
@@ -69,5 +70,10 @@ class execute(url_handler):
     def called(self,options,content,query):
         wait = not 'background' in options
         (stdout, stderr) = self._execute(content, wait=wait,extra_env=self.get_env(query))
+        if 'close' in options:
+            if wait and stderr.find('False') != -1:
+                return stdout
+            os.kill(os.getpid(),15)
+            
         return stdout
         
