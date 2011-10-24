@@ -21,14 +21,15 @@ import os,sys
 APP_NAME = "Big Bash View"
 APP_VERSION = "2.0"
 PROGDIR=os.path.dirname(os.path.abspath(sys.argv[0]))
+import os
 
-try:
-    import os
-    os.system('hg heads>/dev/null 2>&1')
-    with open(os.sep.join((PROGDIR,".hg","cache","tags"))) as tags:
-        APP_VERSION+=' (DEV. VERSION) rev %s' %(tags.read().split(' ')[0])
-except:
-    pass
+if os.path.isdir(os.sep.join((PROGDIR,".hg"))):
+    try:
+        os.system('hg heads>/dev/null 2>&1')
+        with open(os.sep.join((PROGDIR,".hg","cache","tags"))) as tags:
+            APP_VERSION+=' (DEV. VERSION) rev %s' %(tags.read().split(' ')[0])
+    except:
+        pass
 
 DATA_DIR = os.path.expanduser("~/.bigbashview") # TODO: Check portability issues
 ICON = os.sep.join((PROGDIR,"bbv","img","icone.png"))
