@@ -23,6 +23,8 @@ APP_VERSION = "2.0"
 PROGDIR=os.path.dirname(os.path.abspath(sys.argv[0]))
 
 try:
+    import os
+    os.system('hg heads>/dev/null 2>&1')
     with open(os.sep.join((PROGDIR,".hg","cache","tags"))) as tags:
         APP_VERSION+=' (DEV. VERSION) rev %s' %(tags.read().split(' ')[0])
 except:
