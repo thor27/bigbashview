@@ -31,7 +31,7 @@ class Main:
     width = -1
     height = -1
     toolkit = "auto"
-    url = "./exemplo.sh"
+    url = "/"
     window_state="normal"
     icon = globaldata.ICON
     
@@ -158,7 +158,9 @@ class Main:
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
         if self.url.find('://') == -1:
-            self.url = "http://%s:%s/%s" %(globaldata.ADDRESS(),globaldata.PORT(),self.url)
+            if not self.url.startswith('/'):
+                self.url = '/'+self.url
+            self.url = "http://%s:%s%s" %(globaldata.ADDRESS(),globaldata.PORT(),self.url)
         self.window.load_url(self.url)
         globaldata.ICON = self.icon
         sys.exit(self.window.run())

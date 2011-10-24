@@ -23,10 +23,11 @@ class url_handler(object):
         return self.called(options,content,qs)
     
     def _get_set_default_options(self,options):
-        if not options:
-            return []
-        
         optlist = options.split('$')
+        if len(optlist) == 1:
+            web.header('Content-Type', 'text/html')
+            return ([],options)
+            
         content = '$'.join(optlist[1:])
         optlist = optlist[0]
         if 'plain' in optlist:
@@ -38,10 +39,6 @@ class url_handler(object):
     
     def called(self,options,query):
         raise NotImplementedError
-
-class about(url_handler):
-    def called(self,*args):
-        return '<html><body><h1>Welcome to BigBashView 2!</h1></body></html>'
 
 class content(url_handler):        
     __url__='/content(.*)'
@@ -76,4 +73,12 @@ class execute(url_handler):
             os.kill(os.getpid(),15)
             
         return stdout
-        
+
+class default_handler(url_handler):
+    __url__='(.*)'
+    def called(self,options,content,query):
+        if content:
+            #TODO verify compat mode, and start guessing handler
+            # if not, trow error on screen
+            pass
+        return '<html><body><h1>Welcome to BigBashView 2!</h1></body></html>'
