@@ -21,7 +21,6 @@ import os,sys
 APP_NAME = "Big Bash View"
 APP_VERSION = "2.0"
 PROGDIR=os.path.dirname(os.path.abspath(sys.argv[0]))
-import os
 
 if os.path.isdir(os.sep.join((PROGDIR,".hg"))):
     try:
