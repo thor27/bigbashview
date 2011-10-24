@@ -37,26 +37,25 @@ class Main:
     
     def __init__(self):
         try:
-            opts, args = getopt.gnu_getopt(sys.argv[1:], 'hs:vt:w:i:', ['help', 'screen=',
-                                       'version', "toolkit=", 'window_state=', 'icon=' ])
+            opts, args = getopt.gnu_getopt(sys.argv[1:], 'hs:vt:w:i:c', ['help', 'screen=',
+                                       'version', "toolkit=", 'window_state=', 'icon=', 'compatibility-mode' ])
 
         except getopt.error, msg:
             print msg
             print 'for help use --help'
             sys.exit(2)
 	
-	if len(args):
-	    self.url=args[0]
-	
-	for o, a in opts:
-    
+        if len(args):
+            self.url=args[0]
+
+        for o, a in opts:
             if o in ('-h', '--help'):
                 self.help()
-    
+
             elif o in ('-v','--version'):
                 print globaldata.APP_NAME, globaldata.APP_VERSION
                 sys.exit()
-            
+
             elif o in ('-s', '--screen'):
                 args = a.split('x')
                 
@@ -72,7 +71,7 @@ class Main:
                 #Window Size
                 self.width = int(self.width)
                 self.height = int(self.height)
-            
+
             elif o in ('-t','--toolkit'):
                 if a in ("gtk2", "qt4"):
                     self.toolkit = a
@@ -83,12 +82,14 @@ class Main:
                     self.window_state=a
             elif o in ('-i','--icon'):
                 if os.path.exists(a):
-                    self.globaldata.ICON = a
-	    
+                    globaldata.ICON = a
+            elif o in ('-c','--compatibility-mode'):
+                    globaldata.COMPAT = True
+    
         #Create data folder if doesn't exists...
-	if not os.path.isdir(globaldata.DATA_DIR):
-	    os.mkdir(globaldata.DATA_DIR)
-        
+        if not os.path.isdir(globaldata.DATA_DIR):
+            os.mkdir(globaldata.DATA_DIR)
+            
         #construct window
         if self.toolkit == "auto":
             try:
@@ -122,7 +123,7 @@ class Main:
                 has_qt4 = False
             
             if not has_qt4:
-		from bbv.ui import qt4
+                from bbv.ui import qt4
                 print >> sys.stderr, ('bbv needs PyQt '
                                       'to run. Please install '
                                       'the latest stable version')
@@ -130,7 +131,7 @@ class Main:
                 sys.exit(1)
             
             self.window = qt4.Window()
-        
+
         elif self.toolkit == "gtk2":
             try:
                 from bbv.ui import gtk2
@@ -149,7 +150,7 @@ class Main:
 	
 	
     def help(self):
-        print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt4|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] URL'
+        print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt4|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL'
         sys.exit()
         
     def run(self):

@@ -1,0 +1,26 @@
+URL=`pwd`
+echo '
+<html>
+    <head>
+        <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+        <script src="/content$jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){ 
+                $("#background-click").click(function(e){
+                    e.preventDefault();
+                    $.get($(this).attr("href"));
+                });
+            });
+        </script>
+    </head>'
+echo "
+    <body>
+        <h1>Links que utilizam os recursos especiais do servidor do BBV</h1>
+        <p><i>Este modo é ativado com a opção <b>-c</b> ou <b>--compatibility-mode</b></i></p>
+        <a href='$URL/teste.sh'> executar o teste.sh</a><br/>
+        <a href='$URL/teste.html'> exibe o conteúdo em html do teste.html</a><br/>
+        <a href='$URL/teste.txt'> exibe o conteúdo em texto plano do teste.txt</a><br/>
+        <a href='$URL/teste.run' id='background-click'> executa o teste.run em background (utiliza js para evitar o redirecionamento)</a><br/>
+        
+    </body>
+</html>"

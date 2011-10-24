@@ -25,7 +25,6 @@ class url_handler(object):
     def _get_set_default_options(self,options):
         optlist = options.split('$')
         if len(optlist) == 1:
-            web.header('Content-Type', 'text/html')
             return ([],options)
             
         content = '$'.join(optlist[1:])
@@ -37,16 +36,16 @@ class url_handler(object):
         
         return optlist,content
     
-    def called(self,options,query):
+    def called(self,options,content,query):
         raise NotImplementedError
 
-class content(url_handler):        
+class content_handler(url_handler):        
     __url__='/content(.*)'
     def called(self,options,content,query):
         with open(content) as arq:
             return arq.read()
 
-class execute(url_handler):
+class execute_handler(url_handler):
     __url__='/execute(.*)'
     
     def get_env(self,query, prefix='bbv_'):
@@ -77,8 +76,55 @@ class execute(url_handler):
 class default_handler(url_handler):
     __url__='(.*)'
     def called(self,options,content,query):
-        if content:
-            #TODO verify compat mode, and start guessing handler
-            # if not, trow error on screen
-            pass
-        return '<html><body><h1>Welcome to BigBashView 2!</h1></body></html>'
+        if content not in ("","/"):
+           if globaldata.COMPAT:
+               return self.bbv1_compat_mode(options,content,query)
+           else:
+               HTML= '''
+                   <html>
+                       <body>
+                           <h1>Invalid request</h1>
+                           <p>
+                               <b>options: </b>%s
+                           </p>
+                           <p>
+                               <b>content: </b>%s
+                           </p>
+                           <p>
+                               <b>query: </b>%s
+                           </p>
+                       </body>
+                   </html>
+               ''' %(options,content,query)
+        else:
+            HTML='''
+                <html>
+                    <body>
+                        <h1>Welcome to BigBashView 2!</h1>
+                        <p>
+                            <i>
+                                <b>Software revision: </b><span style='color:red'> %s</span>
+                            </i>
+                        </p>
+                    </body>
+                </html>
+            ''' %(globaldata.APP_VERSION)
+        web.header('Content-Type', 'text/html')
+        return HTML
+    
+    def bbv1_compat_mode(self,options,content,query):
+        execute_ext=('.sh','.sh.html','.sh.htm')
+        execute_background_ext=('.run',)
+        content_ext=('.htm','.html')
+        content_plain_ext=('.txt',)
+        if content.endswith(content_plain_ext):
+            web.header('Content-Type', 'text/plain')
+            return content_handler().called(options,content,query)
+        web.header('Content-Type', 'text/html')
+        if content.endswith(execute_ext):
+            return execute_handler().called(options,content,query)
+        if content.endswith(execute_background_ext):
+            options.append('background')
+            return execute_handler().called(options,content,query)
+        if content.endswith(content_ext):
+            return content_handler().called(options,content,query)

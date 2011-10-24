@@ -19,8 +19,17 @@
 import os,sys
 
 APP_NAME = "Big Bash View"
-APP_VERSION = "2.0.1 (beta)"
+APP_VERSION = "2.0"
+PROGDIR=os.path.dirname(os.path.abspath(sys.argv[0]))
+
+try:
+    with open(os.sep.join((PROGDIR,".hg","cache","tags"))) as tags:
+        APP_VERSION+=' (DEV. VERSION) rev %s' %(tags.read().split(' ')[0])
+except:
+    pass
+
 DATA_DIR = os.path.expanduser("~/.bigbashview") # TODO: Check portability issues
-ICON = os.path.dirname(os.path.abspath(sys.argv[0]))+os.sep+"bbv"+os.sep+"img"+os.sep+"icone.png"
+ICON = os.sep.join((PROGDIR,"bbv","img","icone.png"))
 ADDRESS = lambda: '127.0.0.1'
 PORT = lambda: 9000
+COMPAT=False
