@@ -2,6 +2,7 @@ from urlparse import parse_qs
 import subprocess
 import os
 import web
+from .parser import parser
 
 try:
     from bbv import globals as globaldata
@@ -20,7 +21,11 @@ class url_handler(object):
     def parse_and_call(self,qs,name):
         qs = parse_qs(qs)
         options,content = self._get_set_default_options(name)
-        return self.called(options,content,qs)
+        html = self.called(options,content,qs)
+        if 'parse' in options:
+            return parser.parse(html)
+        
+        return html
     
     def _get_set_default_options(self,options):
         optlist = options.split('$')
