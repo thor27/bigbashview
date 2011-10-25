@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+        <script src="/content$jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+         $(document).ready(function(){ 
+                 //Não redireciona a pagina para os links com class noredirect
+                $('.noredirect').click(function(e){
+                    e.preventDefault();
+                    $.get($(this).attr('href'));
+                });
+                
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Page Template parser demo</h1>
+        <h2>
+            <i>
+                Powered by 
+                <a class='noredirect' href='/execute background$xdg-open "http://pagetemplates.org"'>
+                    Chameleon
+                </a>
+            </i>
+        </h2>
+
+        <tal:define tal:define='retorno sh:./parser_demo_view/retorna_simples.sh'>
+            <b>Retorno simples:</b>
+            <span tal:content="retorno"/><br/>
+        </tal:define>
+        
+        <tal:define tal:define='retorno sh:./parser_demo_view/retorna_str.sh'>
+            <b>Retorno <i>str</i>:</b>
+            <span tal:content="retorno"/><br/>
+        </tal:define>
+        
+        <tal:define tal:define='numero sh:./parser_demo_view/retorna_int.sh'>
+            <b>Retornando <i>int</i>:</b>
+            <span tal:content="python:numero+1"/><br/>
+        </tal:define>
+        
+        <tal:define tal:define='numero sh:./parser_demo_view/retorna_float.sh'>
+            <b>Retornando <i>float</i>:</b>
+            <span tal:content="python:numero+0.2"/><br/>
+        </tal:define>
+        
+        <tal:define tal:define='booleano sh:./parser_demo_view/retorna_bool.sh'>
+            <b>Retornando <i>bool</i>:</b>
+            <span tal:condition="booleano">
+                O retorno foi verdadeiro!
+            </span><br/>
+        </tal:define>
+        
+        <tal:define tal:define='funcao sh:./parser_demo_view/retorna_python.sh'>
+            <b>Retornando <i>python</i>:</b>
+            <span tal:content="python:funcao(1)"/><br/>
+        </tal:define>
+        
+        <tal:define tal:define='array sh:./parser_demo_view/retorna_array.sh'>
+            <b>Retornando <i>array</i>:</b>
+            <span tal:repeat='valor array'>
+                <span tal:content="valor"/>,
+            </span><br/>
+        </tal:define>
+        
+        <tal:define tal:define='array sh:./parser_demo_view/retorna_array_int.sh'>
+            <b>Retornando <i>array_int</i>:</b>
+            <span tal:repeat='valor array'>
+                <span tal:content="python:valor+1"/>,
+            </span><br/>
+        </tal:define>
+        
+        <tal:define tal:define='array sh:./parser_demo_view/retorna_array_float.sh'>
+            <b>Retornando <i>array_float</i>:</b>
+            <span tal:repeat='valor array'>
+                <span tal:content="python:valor+0.1"/>,
+            </span><br/>
+        </tal:define>  
+        
+        <tal:define tal:define='array sh:./parser_demo_view/retorna_array_bool.sh'>
+            <b>Retornando <i>array_bool</i>:</b>
+            <span tal:repeat='valor array'>
+                <span tal:condition="valor">
+                    Verdadeiro
+                </span>,
+            </span><br/>
+        </tal:define>  
+    </body>
+</html>
