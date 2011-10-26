@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 #  Copyright (C) 2008 Wilson Pinto Júnior <wilson@openlanhouse.org>
-#  Copyright (C) 2008  Thomaz de Oliveira dos Reis
+#  Copyright (C) 2011 Thomaz de Oliveira dos Reis <thor27@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
