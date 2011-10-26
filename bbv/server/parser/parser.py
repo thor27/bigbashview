@@ -1,11 +1,17 @@
-from chameleon import PageTemplate
-from chameleon.codegen import template
-from chameleon.astutil import Symbol
 import subprocess
 import ast
 import os
 import sys
 import shlex
+
+try:
+    from chameleon import PageTemplate
+    from chameleon.codegen import template
+    from chameleon.astutil import Symbol
+    is_chameleon_available = True
+except ImportError:
+    sys.stderr.write('Chameleon >= 2.5 not available. Parser will not work\n')
+    is_chameleon_available = False
 
 def convert_str_bool(string):
     string = string.lower().strip()
@@ -58,7 +64,10 @@ def sh_expression(command):
         return [ast.Assign(targets=[target], value=value)]
     return compiler
 
-PageTemplate.expression_types['sh'] = sh_expression
+if is_chameleon_available:
+    PageTemplate.expression_types['sh'] = sh_expression
 
-def parse(template):
-    return PageTemplate(template)()
+    def parse(template):
+        return PageTemplate(template)()
+else:
+    parse = lambda x: x
