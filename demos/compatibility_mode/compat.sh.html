@@ -1,0 +1,26 @@
+URL=`pwd`
+echo '
+<html>
+    <head>
+        <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+        <script src="/content$jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){ 
+                $("#background-click").click(function(e){
+                    e.preventDefault();
+                    $.get($(this).attr("href"));
+                });
+            });
+        </script>
+    </head>'
+echo "
+    <body>
+        <h1>Examples on how to use the BBV1 Compatibility mode</h1>
+        <p><i>This mode is activated with <b>-c</b> or <b>--compatibility-mode</b></i></p>
+        <a href='$URL/test.sh'> execute test.sh</a><br/>
+        <a href='$URL/test.html'> show html content of test.html</a><br/>
+        <a href='$URL/test.txt'> show text plain content of test.txt</a><br/>
+        <a href='$URL/test.run' id='background-click'> runs test.run in background (uses js to avoid redirecting)</a><br/>
+        
+    </body>
+</html>"

@@ -7,7 +7,7 @@ echo '
         <script type="text/javascript">
             $(document).ready(function(){ 
                 
-                //Não redireciona a pagina para os links com class noredirect
+                //Do not redirect links with noredirect class
                 $(".noredirect").click(function(e){
                     e.preventDefault();
                     $.get($(this).attr("href"));
@@ -17,11 +17,11 @@ echo '
         </script>
     </head>
     <body>
-    <h1>Demos disponíveis</h1>
+    <h1>Available demos</h1>
 '
 for x in *
 do
-    if [ -d $x ] && [ -f $x/executar_demo ]
+    if [ -d $x ] && [ -f $x/execute_demo ]
     then
         echo "<a class='noredirect' href='/execute background\$./run.sh $x'>$x</a><br/>"
     fi

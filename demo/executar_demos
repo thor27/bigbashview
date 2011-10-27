@@ -1,3 +1,0 @@
-#!/bin/bash
-python ../bigbashview.py 'execute$./pagina_demos.sh'
-
