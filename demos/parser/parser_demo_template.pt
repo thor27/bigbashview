@@ -23,7 +23,14 @@
                 </a>
             </i>
         </h2>
-
+        <form>
+            <input name="example"/>
+            <input type="submit"/>
+        </form>
+        <div tal:condition="request['example']|nothing">
+            <p>You've submited <b tal:content="request['example'][0]"/></p>
+            <p>On shell you see it as $bbv_example: <b tal:content="sh:echo $bbv_example"/></p>
+        </div>
         <tal:define tal:define='retorno sh:./parser_demo_view/return_simples.sh'>
             <b>Simple return:</b>
             <span tal:content="retorno"/><br/>

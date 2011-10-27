@@ -3,6 +3,8 @@ import ast
 import os
 import sys
 import shlex
+from ..utils import get_env_for_shell
+from ..utils import convert_str_bool
 
 try:
     from chameleon import PageTemplate
@@ -13,19 +15,7 @@ except ImportError:
     sys.stderr.write('Chameleon >= 2.5 not available. Parser will not work\n')
     is_chameleon_available = False
 
-def convert_str_bool(string):
-    string = string.lower().strip()
-    if string in ['true','yes']:
-        return True
-    if string in ['false','no']:
-        return False
-    try:
-        return  bool(int(string))
-    except ValueError:
-        return string
-
 def parse_output(text,mode):
-    
     output_parser = {
         'int':int,
         'float':float,
@@ -47,6 +37,7 @@ def execute(command,context,context_ext):
     context.update(context_ext)
     for key in context:
         env[key] = str(context[key])
+    env.update(get_env_for_shell(context['request']))
     po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
     (stdout,stderr) = po.communicate()
     sys.stderr.write(stderr)
@@ -67,7 +58,7 @@ def sh_expression(command):
 if is_chameleon_available:
     PageTemplate.expression_types['sh'] = sh_expression
 
-    def parse(template):
-        return PageTemplate(template)()
+    def parse(template,qs):
+        return PageTemplate(template)(request=qs)
 else:
-    parse = lambda x: x
+    parse = lambda template,qs: template

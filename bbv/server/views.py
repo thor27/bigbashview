@@ -21,6 +21,7 @@ import subprocess
 import os
 import web
 from .parser import parser
+from .utils import get_env_for_shell
 
 try:
     from bbv import globals as globaldata
@@ -41,7 +42,7 @@ class url_handler(object):
         options,content = self._get_set_default_options(name)
         html = self.called(options,content,qs)
         if 'parse' in options:
-            return parser.parse(html)
+            return parser.parse(html,qs)
         
         return html
     
@@ -67,13 +68,9 @@ class content_handler(url_handler):
     def called(self,options,content,query):
         with open(content) as arq:
             return arq.read()
-
+    
 class execute_handler(url_handler):
     __url__='/execute(.*)'
-    
-    def get_env(self,query, prefix='bbv_'):
-        join_options = lambda opt: (prefix+opt[0],";".join([x.replace(';','\;') for x in opt[1]]))
-        return dict(map(join_options, query.items()))
         
     def _execute(self, command, wait=False, extra_env={}):
         env = os.environ.copy()
@@ -88,7 +85,7 @@ class execute_handler(url_handler):
             
     def called(self,options,content,query):
         wait = not 'background' in options
-        (stdout, stderr) = self._execute(content, wait=wait,extra_env=self.get_env(query))
+        (stdout, stderr) = self._execute(content, wait=wait,extra_env=get_env_for_shell(query))
         if 'close' in options:
             if wait and stderr.find('False') != -1:
                 return stdout
