@@ -43,12 +43,12 @@
         
         <tal:define tal:define='numero sh:./parser_demo_view/return_int.sh'>
             <b>Returning <i>int</i>:</b>
-            <span tal:content="python:numero+1"/><br/>
+            <span tal:content="numero+1"/><br/>
         </tal:define>
         
         <tal:define tal:define='numero sh:./parser_demo_view/return_float.sh'>
             <b>Returning <i>float</i>:</b>
-            <span tal:content="python:numero+0.2"/><br/>
+            <span tal:content="numero+0.2"/><br/>
         </tal:define>
         
         <tal:define tal:define='booleano sh:./parser_demo_view/return_bool.sh'>
@@ -60,7 +60,7 @@
         
         <tal:define tal:define='funcao sh:./parser_demo_view/return_python.sh'>
             <b>Returning <i>python</i>:</b>
-            <span tal:content="python:funcao(1)"/><br/>
+            <span tal:content="funcao(1)"/><br/>
         </tal:define>
         
         <tal:define tal:define='array sh:./parser_demo_view/return_array.sh'>
@@ -73,14 +73,14 @@
         <tal:define tal:define='array sh:./parser_demo_view/return_array_int.sh'>
             <b>Returning <i>array_int</i>:</b>
             <span tal:repeat='valor array'>
-                <span tal:content="python:valor+1"/>,
+                <span tal:content="valor+1"/>,
             </span><br/>
         </tal:define>
         
         <tal:define tal:define='array sh:./parser_demo_view/return_array_float.sh'>
             <b>Returning <i>array_float</i>:</b>
             <span tal:repeat='valor array'>
-                <span tal:content="python:valor+0.1"/>,
+                <span tal:content="valor+0.1"/>,
             </span><br/>
         </tal:define>  
         
