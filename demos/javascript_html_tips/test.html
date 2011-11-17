@@ -31,13 +31,6 @@
                 $('#closewindow').click(function(){
                     window.close();
                 });
-                
-                //Do not redirect links with noredirect class
-                $('.noredirect').click(function(e){
-                    e.preventDefault();
-                    $.get($(this).attr('href'));
-                });
-                
             });
         </script>
     </head>
@@ -49,6 +42,5 @@
         <a href='#' id='windowsize'>Change window size</a><br/>
         <a href='#' id='windowposition'>Change window position</a><br/>
         <a href='#' id='closewindow'>Close the window</a><br/>
-        <a href="/execute background$./test2.sh" class='noredirect'>runs test2.sh in background (uses js to avoid redirecting)</a><br/>
     </body>
 </html>

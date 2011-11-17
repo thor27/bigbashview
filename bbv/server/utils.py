@@ -1,4 +1,4 @@
-def get_env_for_shell(query, prefix='bbv_'):
+def get_env_for_shell(query, prefix='p_'):
     join_options = lambda opt: (prefix+opt[0],";".join([x.replace(';','\;') for x in opt[1]]))
     return dict(map(join_options, query.items()))
 

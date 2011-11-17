@@ -74,8 +74,8 @@ class execute_handler(url_handler):
         
     def _execute(self, command, wait=False, extra_env={}):
         env = os.environ.copy()
-        env['bbv_ip']=str(globaldata.ADDRESS())
-        env['bbv_port']=str(globaldata.PORT())
+        env['p_ip']=str(globaldata.ADDRESS())
+        env['p_port']=str(globaldata.PORT())
         env.update(extra_env)
         
         po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
@@ -90,7 +90,8 @@ class execute_handler(url_handler):
             if wait and stderr.find('False') != -1:
                 return stdout
             os.kill(os.getpid(),15)
-            
+        if not wait:
+            web.HTTPError('403 Forbidden')  
         return stdout
 
 class default_handler(url_handler):
@@ -137,6 +138,14 @@ class default_handler(url_handler):
         execute_background_ext=('.run',)
         content_ext=('.htm','.html')
         content_plain_ext=('.txt',)
+        
+        relative_content = content[1:]
+        if os.path.isfile(relative_content):
+            if content.startswith('.'):
+                content = relative_content
+            else:
+                content = './%s' %relative_content 
+                    
         if content.endswith(content_plain_ext):
             web.header('Content-Type', 'text/plain')
             return content_handler().called(options,content,query)
