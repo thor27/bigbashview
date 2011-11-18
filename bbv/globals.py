@@ -19,14 +19,15 @@
 import os,sys
 
 APP_NAME = "Big Bash View"
-APP_VERSION = "2.0"
+APP_VERSION = "2.1"
 PROGDIR=os.path.dirname(os.path.abspath(sys.argv[0]))
 
 if os.path.isdir(os.sep.join((PROGDIR,".hg"))):
     try:
-        os.system('hg heads>/dev/null 2>&1')
-        with open(os.sep.join((PROGDIR,".hg","cache","tags"))) as tags:
-            APP_VERSION+=' (DEV. VERSION) rev %s' %(tags.read().split(' ')[0])
+        import subprocess
+        po = subprocess.Popen("hg heads --template '{rev}'", stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        stdout, stderr = po.communicate()
+        APP_VERSION+=' (DEV. VERSION) rev %s' %stdout
     except:
         pass
 
