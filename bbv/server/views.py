@@ -150,7 +150,6 @@ class default_handler(url_handler):
                 content = relative_content
             else:
                 content = './%s' %relative_content 
-        print 'qs:',self.original_qs
         if content.endswith(content_plain_ext):
             web.header('Content-Type', 'text/plain')
             return content_handler().called(options,content,query)
