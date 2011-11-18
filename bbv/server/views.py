@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from urlparse import parse_qs
+from urlparse import unquote
 import subprocess
 import os
 import web
@@ -132,7 +133,11 @@ class default_handler(url_handler):
             ''' %(globaldata.APP_VERSION)
         web.header('Content-Type', 'text/html')
         return HTML
-    
+
+    def parse_and_call(self,qs,name):
+        self.original_qs = qs
+        return url_handler.parse_and_call(self,qs,name)
+            
     def bbv1_compat_mode(self,options,content,query):
         execute_ext=('.sh','.sh.html','.sh.htm')
         execute_background_ext=('.run',)
@@ -145,15 +150,19 @@ class default_handler(url_handler):
                 content = relative_content
             else:
                 content = './%s' %relative_content 
-                    
+        print 'qs:',self.original_qs
         if content.endswith(content_plain_ext):
             web.header('Content-Type', 'text/plain')
             return content_handler().called(options,content,query)
         web.header('Content-Type', 'text/html')
+        execute_content=" ".join((content,unquote(self.original_qs)))
         if content.endswith(execute_ext):
-            return execute_handler().called(options,content,query)
+            return execute_handler().called(options,execute_content,query)
         if content.endswith(execute_background_ext):
             options.append('background')
-            return execute_handler().called(options,content,query)
+            return execute_handler().called(options,execute_content,query)
         if content.endswith(content_ext):
             return content_handler().called(options,content,query)
+        #Default option
+        return content_handler().called(options,content,query)
+       
