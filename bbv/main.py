@@ -153,8 +153,9 @@ class Main:
         print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt4|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL'
         sys.exit()
         
-    def run(self):
-        run_server()
+    def run(self, server=True):
+        if server:
+            run_server()
         time.sleep(1)
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
