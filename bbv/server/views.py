@@ -75,8 +75,8 @@ class execute_handler(url_handler):
         
     def _execute(self, command, wait=False, extra_env={}):
         env = os.environ.copy()
-        env['p_ip']=str(globaldata.ADDRESS())
-        env['p_port']=str(globaldata.PORT())
+        env['bbv_ip']=str(globaldata.ADDRESS())
+        env['bbv_port']=str(globaldata.PORT())
         env.update(extra_env)
         
         po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)

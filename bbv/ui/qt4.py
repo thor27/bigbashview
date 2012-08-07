@@ -20,12 +20,11 @@
 
 import sys
 import os
+from PyQt4.QtCore import QObject, SIGNAL, QString, QUrl
+from PyQt4.QtGui import QApplication, QIcon
+from PyQt4.QtWebKit import QWebView, QWebSettings
 
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4.QtWebKit import *
-
-from bbv.globals import *
+from bbv.globals import ICON, DATA_DIR
 from bbv.ui.base import BaseWindow
 
 class Window(BaseWindow):

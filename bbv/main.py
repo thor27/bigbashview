@@ -22,7 +22,6 @@ import sys
 import os
 import getopt
 import re
-import time
 
 from bbv import globals as globaldata
 from bbv.server.bbv2server import run_server
@@ -30,7 +29,7 @@ from bbv.server.bbv2server import run_server
 class Main:
     width = -1
     height = -1
-    toolkit = "auto"
+    toolkit = "qt4"
     url = "/"
     window_state="normal"
     icon = globaldata.ICON
@@ -156,7 +155,6 @@ class Main:
     def run(self, server=True):
         if server:
             run_server()
-        time.sleep(1)
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
         if self.url.find('://') == -1:
