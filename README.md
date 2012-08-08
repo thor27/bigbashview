@@ -36,7 +36,6 @@ Introduction
 
 Here you will find instructions on how to use `BigBashView` 2
 
-<wiki:toc max_depth="2" />
 
 Installing `BigBashView` 2
 --------------------------
@@ -54,9 +53,10 @@ Usage
 
 to run `BigBashView`, you must execute the bigbashview.py script.
 There are serveral command line arguments that can be used as following:
-{{{
+```bash
+
 ./bigbashview.py [-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt4|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL
-}}}
+```
 
 Where URL is a URL or a server path as documented bellow
 || Option || Description ||
@@ -72,18 +72,18 @@ Basic usage
 -----------
 
 To create a hello world window, just call `BigBashView` as follows:
-{{{
+```bash
 $ ./bigbashview.py 'execute$echo Hello World!'
-}}}
+```
 
 http://bigbashview.googlecode.com/hg/demos/documentation_images/hello01.png
 
 To create a more fancy hello world, you coud try to create a script and call it, as follows:
-{{{
+```bash
 $ vim hello.sh
-}}}
+```
 
-{{{
+```bash
 #!/bin/bash
 echo "
 <html>
@@ -96,12 +96,12 @@ echo "
   </body>
 </html>
 "
-}}}
+```
 
-{{{
+```bash
 $chmod +x hello.sh
 $./bigbashview.py 'execute$hello.sh'
-}}}
+```
 
 http://bigbashview.googlecode.com/hg/demos/documentation_images/hello02.png
 
@@ -112,9 +112,9 @@ As you saw above, to execute the *hello.sh* script, we used *execute$*
 
 This syntax works like this:
 
-{{{
+```bash
 command <options>$ <value>
-}}}
+```
 
 The available commands are:
 
@@ -139,15 +139,15 @@ Creating Forms
 
 After creating a form, set it on the action to send to server to execute the script. for example:
 
-{{{
+```html
 <form action="execute$./process_form.sh">
-}}}
+```
 
 in the process_form.sh you will get all post (or get) values in system variables named like:
 
-{{{
+```bash
 p_fieldname
-}}}
+```
 
 To get an example on how to create a form, see the folder *form* inside the demos folder of your `BigBashView` package
 
@@ -172,16 +172,16 @@ As you can see [http://code.google.com/p/bigbashview/issues/detail?id=2 here], t
 
 To workaround this, you can tell server to shutdown the application, calling the *close* option like this:
 
-{{{
+```html
 <a href="execute close$">Close the window</a>
-}}}
+```
 
 This option will only work with the execute command.
 Optionally you can, in your script, print "False" to stderr so the server will not close the window, like that:
 
-{{{
+```html
 <a href="execute close$echo False">This does not close the window</a>
-}}}
+```
 
 This way you can show a dialog confirmation before closing the window.
 
@@ -221,9 +221,9 @@ In `BigBashView` you can use [http://pagetemplates.org Chameleon] to parse your 
 
 To do that, you just need to use *parse* in the options of your command, for example:
 
-{{{
+```bash
 ./bigbashview.py 'content parse$./page_template.pt'
-}}}
+```
 
 So page_template.pt will be parsed with Chameleon. 
 
