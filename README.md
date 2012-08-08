@@ -1,12 +1,9 @@
-=========
----------
-BigBashView
-=========
----------
+<img src="http://bigbashview.googlecode.com/hg/demos/documentation_images/bigbashview_logo.png" />
+===================================
 
 Graphical Frontends for shellscripts using HTML/JS/CSS
 
-http://bigbashview.googlecode.com/hg/demos/documentation_images/bigbashview_logo.png
+
 
 NEWS
 ----
@@ -25,7 +22,7 @@ With BigBashView you will get:
 
   * Easy learn curve!
 
-http://bigbashview.googlecode.com/hg/demos/documentation_images/bigbashview_welcome.png
+<img src="http://bigbashview.googlecode.com/hg/demos/documentation_images/bigbashview_welcome.png" />
 
 Head over to the [http://code.google.com/p/bigbashview/downloads downloads] section to get it, and to the [http://code.google.com/p/bigbashview/wiki/Documentation wiki] section to see the documentation
 
@@ -76,7 +73,7 @@ To create a hello world window, just call `BigBashView` as follows:
 $ ./bigbashview.py 'execute$echo Hello World!'
 ```
 
-http://bigbashview.googlecode.com/hg/demos/documentation_images/hello01.png
+<img src="http://bigbashview.googlecode.com/hg/demos/documentation_images/hello01.png" />
 
 To create a more fancy hello world, you coud try to create a script and call it, as follows:
 ```bash
@@ -103,7 +100,7 @@ $chmod +x hello.sh
 $./bigbashview.py 'execute$hello.sh'
 ```
 
-http://bigbashview.googlecode.com/hg/demos/documentation_images/hello02.png
+<img src="http://bigbashview.googlecode.com/hg/demos/documentation_images/hello02.png" />
 
 Server Options 
 ---------
