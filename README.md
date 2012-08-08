@@ -1,14 +1,19 @@
-bigbashview
-===========
+=========
+---------
+BigBashView
+=========
+---------
 
 Graphical Frontends for shellscripts using HTML/JS/CSS
 
 http://bigbashview.googlecode.com/hg/demos/documentation_images/bigbashview_logo.png
-==NEWS==
 
+NEWS
+----
 *27/04/2012* - Version 2.1 released with some bugfixes and improvements on compatibility mode.
 
-== About ==
+About
+-----
 
 With BigBashView you will get:
 
@@ -26,13 +31,15 @@ Head over to the [http://code.google.com/p/bigbashview/downloads downloads] sect
 
 If you want to contact me, please drop me an e-mail thor27 AT gmail.com
 
-= Introduction =
+Introduction
+------------
 
 Here you will find instructions on how to use `BigBashView` 2
 
 <wiki:toc max_depth="2" />
 
-= Installing `BigBashView` 2 =
+Installing `BigBashView` 2
+--------------------------
 
 `BigBashView` 2 is not installable, you just need to download and extract the package.
 
@@ -42,7 +49,8 @@ To use it, you need:
   * PyQT4 (http://www.riverbankcomputing.co.uk/software/pyqt/intro) package python-qt-4 on Ubuntu 
   * Optional: Chameleon 2.5+ (http://pagetemplates.org/) package python-chameleon on Ubuntu
 
-= Usage =
+Usage
+-----
 
 to run `BigBashView`, you must execute the bigbashview.py script.
 There are serveral command line arguments that can be used as following:
@@ -60,7 +68,8 @@ Where URL is a URL or a server path as documented bellow
 || -i, --icon=image || Change `BigBashView` 2 window icon ||
 || -c, --compatibility-mode || Enables `BigBashView` 1 compatibility mode ||
 
-== Basic usage ==
+Basic usage
+-----------
 
 To create a hello world window, just call `BigBashView` as follows:
 {{{
@@ -96,7 +105,8 @@ $./bigbashview.py 'execute$hello.sh'
 
 http://bigbashview.googlecode.com/hg/demos/documentation_images/hello02.png
 
-== Server Options ==
+Server Options 
+---------
 
 As you saw above, to execute the *hello.sh* script, we used *execute$*
 
@@ -124,7 +134,8 @@ This same syntax can be used in URLs on links, images and everything on your web
 
 To get some examples on how to use server options, see the folder *server_options* inside the demos folder of your `BigBashView` package
 
-== Creating Forms ==
+Creating Forms 
+---------
 
 After creating a form, set it on the action to send to server to execute the script. for example:
 
@@ -140,7 +151,8 @@ p_fieldname
 
 To get an example on how to create a form, see the folder *form* inside the demos folder of your `BigBashView` package
 
-== Common javascript and HTML tips ==
+Common javascript and HTML tips 
+---------
 
 Some html and javascript window manipulations will work on `BigBashView` windows.
 
@@ -153,7 +165,8 @@ Some html and javascript window manipulations will work on `BigBashView` windows
 
 To see those javascript and HMTL tips in action, see the folder *javascript_html_tips* inside the demos folder of your `BigBashView` package
 
-== Closing the window ==
+Closing the window
+------------------
 
 As you can see [http://code.google.com/p/bigbashview/issues/detail?id=2 here], there are some issues related to javascript window.close when the window has navigated.
 
@@ -174,9 +187,11 @@ This way you can show a dialog confirmation before closing the window.
 
 To get some examples on how to use this syntax, see the folder *window_close* inside the demos folder of your `BigBashView` package.
 
-= Advanced Usage =
+Advanced Usage
+--------------
 
-== Compatibility Mode ==
+Compatibility Mode
+------------------
 
 To enable the compatibility mode, you need to use the *-c* or *--compatibility-mode* argument option when starting the application.
 
@@ -199,7 +214,8 @@ In comptibility mode, the URLs will not contain commands, just the path for the 
 To get some examples on how to use compatibility mode, see the folder *compatibility_mode* inside the demos folder of your `BigBashView` package.
 
 
-== Using the Chameleon parser ==
+Using the Chameleon parser
+--------------------------
 
 In `BigBashView` you can use [http://pagetemplates.org Chameleon] to parse your page templates.
 
