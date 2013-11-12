@@ -79,7 +79,7 @@ class execute_handler(url_handler):
         env['bbv_port']=str(globaldata.PORT())
         env.update(extra_env)
         
-        po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
+        po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, shell=True, env=env)
         if wait:
             return po.communicate()
         return ('','')
@@ -88,7 +88,7 @@ class execute_handler(url_handler):
         wait = not 'background' in options
         (stdout, stderr) = self._execute(content, wait=wait,extra_env=get_env_for_shell(query))
         if 'close' in options:
-            if wait and stderr.find('False') != -1:
+            if wait and stdout.find('False') != -1:
                 return stdout
             os.kill(os.getpid(),15)
         if not wait:
