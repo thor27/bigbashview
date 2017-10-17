@@ -29,7 +29,7 @@ from bbv.server.bbv2server import run_server
 class Main:
     width = -1
     height = -1
-    toolkit = "qt4"
+    toolkit = "qt5"
     url = "/"
     window_state="normal"
     icon = globaldata.ICON
@@ -72,7 +72,7 @@ class Main:
                 self.height = int(self.height)
 
             elif o in ('-t','--toolkit'):
-                if a in ("gtk2", "qt4"):
+                if a in ("gtk2", "qt5"):
                     self.toolkit = a
                 else:
                     self.toolkit = "auto"
@@ -92,10 +92,10 @@ class Main:
         #construct window
         if self.toolkit == "auto":
             try:
-                from bbv.ui import qt4
-                has_qt4 = True
+                from bbv.ui import qt5
+                has_qt5 = True
             except ImportError:
-                has_qt4 = False
+                has_qt5 = False
             
             try:
                 from bbv.ui import gtk2
@@ -103,33 +103,33 @@ class Main:
             except ImportError:
                 has_gtk2 = False
             
-            if not(has_qt4) and not(has_gtk2):
+            if not(has_qt5) and not(has_gtk2):
                 print >> sys.stderr, ('bbv needs PyGTK or PyQt '
                                       'to run. Please install '
                                       'the latest stable version')
                 sys.exit(1)
             
-            elif has_qt4:
-                self.window = qt4.Window()
+            elif has_qt5:
+                self.window = qt5.Window()
             elif has_gtk2:
                 self.window = gtk2.Window()
             
-        elif self.toolkit == "qt4":
+        elif self.toolkit == "qt5":
             try:
-                from bbv.ui import qt4
-                has_qt4 = True
+                from bbv.ui import qt5
+                has_qt5 = True
             except ImportError:	
-                has_qt4 = False
+                has_qt5 = False
             
-            if not has_qt4:
-                from bbv.ui import qt4
+            if not has_qt5:
+                from bbv.ui import qt5
                 print >> sys.stderr, ('bbv needs PyQt '
                                       'to run. Please install '
                                       'the latest stable version')
                 
                 sys.exit(1)
             
-            self.window = qt4.Window()
+            self.window = qt5.Window()
 
         elif self.toolkit == "gtk2":
             try:
@@ -149,7 +149,7 @@ class Main:
 	
 	
     def help(self):
-        print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt4|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL'
+        print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt5|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL'
         sys.exit()
         
     def run(self, server=True):

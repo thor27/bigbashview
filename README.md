@@ -52,7 +52,7 @@ to run `BigBashView`, you must execute the bigbashview.py script.
 There are serveral command line arguments that can be used as following:
 ```bash
 
-./bigbashview.py [-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt4|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL
+./bigbashview.py [-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt5|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL
 ```
 
 Where URL is a URL or a server path as documented bellow
@@ -60,7 +60,7 @@ Where URL is a URL or a server path as documented bellow
 || -h, --help || Show the list of available options and exit ||
 || -s,--screen=widthxheight || Change the screen size for a specific widthxheight ||
 || -v, --version || Show version number and exit ||
-|| -t, --toolkit=[gtk2|qt4] || Chooses the graphical toolkit to use. QT4 is the default one, since `BigBashView` GTK2 UI is not complete ||
+|| -t, --toolkit=[gtk2|qt5] || Chooses the graphical toolkit to use. QT4 is the default one, since `BigBashView` GTK2 UI is not complete ||
 || -w, --window_state=[normal|maximized|fullscreen] || Change how the window will show, it can be normal, maximized or fullscreen ||
 || -i, --icon=image || Change `BigBashView` 2 window icon ||
 || -c, --compatibility-mode || Enables `BigBashView` 1 compatibility mode ||

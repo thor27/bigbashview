@@ -20,9 +20,11 @@
 
 import sys
 import os
-from PyQt4.QtCore import QObject, SIGNAL, QString, QUrl
-from PyQt4.QtGui import QApplication, QIcon
-from PyQt4.QtWebKit import QWebView, QWebSettings
+from PyQt5.QtCore import QObject, QUrl
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWebKit import QWebSettings
+from PyQt5.QtWebKitWidgets import QWebView, QWebPage
 
 from bbv.globals import ICON, DATA_DIR
 from bbv.ui.base import BaseWindow
@@ -33,23 +35,27 @@ class Window(BaseWindow):
         self.app = QApplication(sys.argv)
         self.desktop= QApplication.desktop()
         self.web = QWebView()
-        self.icon = QIcon(QString(ICON))
-        QWebSettings.setIconDatabasePath(DATA_DIR) 
-        #self.web.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
-        
-        QObject.connect(self.web, 
-                        SIGNAL("titleChanged ( const QString &)"),
-                        self.title_changed)
-        QObject.connect(self.web, 
-                        SIGNAL("iconChanged ()"),
-                        self.icon_changed) 
-        QObject.connect(self.web.page(), 
-                        SIGNAL("windowCloseRequested ()"),
-                        self.close_window)
-        QObject.connect(self.web.page(), 
-                        SIGNAL("geometryChangeRequested ( const QRect)"),
-                        self.set_geometry)
-    
+        self.icon = QIcon(ICON)
+        QWebSettings.setIconDatabasePath(DATA_DIR)
+        self.web.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
+
+        self.web.titleChanged.connect(self.title_changed)
+        self.web.iconChanged.connect(self.icon_changed)
+        self.web.page().windowCloseRequested.connect(self.close_window)
+        self.web.page().geometryChangeRequested.connect(self.set_geometry)
+        # QObject.connect(self.web,
+        #                 SIGNAL("titleChanged ( const QString &)"),
+        #                 self.title_changed)
+        # QObject.connect(self.web,
+        #                 SIGNAL("iconChanged ()"),
+        #                 self.icon_changed)
+        # QObject.connect(self.web.page(),
+        #                 SIGNAL("windowCloseRequested ()"),
+        #                 self.close_window)
+        # QObject.connect(self.web.page(),
+        #                 SIGNAL("geometryChangeRequested ( const QRect)"),
+        #                 self.set_geometry)
+
     def show(self,window_state):
         if window_state == "maximized" and not self.web.isMaximized():
             self.web.showNormal()
@@ -64,36 +70,36 @@ class Window(BaseWindow):
 
     def run(self):
         return self.app.exec_()
-                
+
     def set_debug(self, debuglevel):
         self.debug=debuglevel
-    
+
     def set_geometry(self,geom ):
         self.web.setGeometry(geom)
-        
+
     def close_window(self):
         sys.exit()
-    
+
     def icon_changed(self):
         if not self.icon.isNull():
             self.web.setWindowIcon(self.icon)
         if not self.web.icon().isNull():
             self.web.setWindowIcon(self.web.icon())
-            
+
     def title_changed(self, title):
         self.web.setWindowTitle(title)
 
     def load_url(self,url):
         self.url=QUrl.fromEncoded(url)
         self.web.setUrl(self.url)
-    
+
     def set_size(self,width, height):
         if width<=0:
             width=640
         if height<=0:
             height=480
-        
+
         left=(self.desktop.width()-width)/2
         top=(self.desktop.height()-height)/2
-        
+
         self.web.setGeometry(left,top,width,height)
