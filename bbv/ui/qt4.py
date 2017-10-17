@@ -43,18 +43,6 @@ class Window(BaseWindow):
         self.web.iconChanged.connect(self.icon_changed)
         self.web.page().windowCloseRequested.connect(self.close_window)
         self.web.page().geometryChangeRequested.connect(self.set_geometry)
-        # QObject.connect(self.web,
-        #                 SIGNAL("titleChanged ( const QString &)"),
-        #                 self.title_changed)
-        # QObject.connect(self.web,
-        #                 SIGNAL("iconChanged ()"),
-        #                 self.icon_changed)
-        # QObject.connect(self.web.page(),
-        #                 SIGNAL("windowCloseRequested ()"),
-        #                 self.close_window)
-        # QObject.connect(self.web.page(),
-        #                 SIGNAL("geometryChangeRequested ( const QRect)"),
-        #                 self.set_geometry)
 
     def show(self,window_state):
         if window_state == "maximized" and not self.web.isMaximized():
