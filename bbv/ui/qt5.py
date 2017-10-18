@@ -24,7 +24,7 @@ from PyQt5.QtCore import QObject, QUrl
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebKit import QWebSettings
-from PyQt5.QtWebKitWidgets import QWebView, QWebPage
+from PyQt5.QtWebKitWidgets import QWebView
 
 from bbv.globals import ICON, DATA_DIR
 from bbv.ui.base import BaseWindow
@@ -37,8 +37,6 @@ class Window(BaseWindow):
         self.web = QWebView()
         self.icon = QIcon(ICON)
         QWebSettings.setIconDatabasePath(DATA_DIR)
-        self.web.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
-
         self.web.titleChanged.connect(self.title_changed)
         self.web.iconChanged.connect(self.icon_changed)
         self.web.page().windowCloseRequested.connect(self.close_window)
