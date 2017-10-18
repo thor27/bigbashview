@@ -21,7 +21,7 @@ import sys
 import socket
 import threading
 import inspect
-
+import time
 import views
 try:
     from bbv import globals as globaldata
@@ -37,7 +37,7 @@ class Server(threading.Thread):
         for cls in classes:
             result += self._get_subclasses(cls.__subclasses__())
         return result
-        
+
     def get_urls(self):
         """ Return supported URLs. """
         classes = self._get_subclasses()
@@ -46,7 +46,7 @@ class Server(threading.Thread):
             result.append(cls.__url__)
             result.append(cls.__name__)
         return tuple(result)
-    
+
     def get_classes(self):
         """ Return all view classes. """
         classes = self._get_subclasses()
@@ -54,25 +54,26 @@ class Server(threading.Thread):
         for cls in classes:
             result[cls.__name__] = cls
         return result
-    
+
     def run(self):
         """ Run the webserver """
         ip = globaldata.ADDRESS()
         port = globaldata.PORT()
         sys.argv = [ sys.argv[0], '' ]
         sys.argv[1] = ':'.join((ip,str(port)))
-        
+
         urls = self.get_urls()
         classes = self.get_classes()
-        app = web.application(urls, classes)
-        app.run()
-        
+        self.app = web.application(urls, classes)
+        self.app.run()
+
     def stop(self):
-        pass
+        print 'Waiting for server to shutdown...'
+        self.app.stop()
 
 def run_server(ip='127.0.0.1',background=True):
     soc = socket.socket()
-    for port in range(9000,9100):
+    for port in range(19000,19100):
         try:
             soc.bind((ip,port))
             soc.close()
@@ -81,19 +82,33 @@ def run_server(ip='127.0.0.1',background=True):
             if e[0] != 98:
                 raise socket.error(e)
             print 'Port %d already in use, trying next one' %port
-    
+
     globaldata.ADDRESS = lambda: ip
     globaldata.PORT = lambda: port
-    
+
     server = Server()
-    
-    if background:
-        server.daemon = True
-        web.config.debug = False
-        server.start()
-    else:
+
+    if not background:
         web.config.debug = True
-        server.run()
+        return server.run()
+
+    server.daemon = True
+    web.config.debug = False
+    server.start()
+    #Wait for server to respond...
+    while True:
+        try:
+            con = socket.create_connection((ip,port))
+            con.close()
+            break
+        except socket.error, e:
+            if e[0] != 111:
+                raise socket.error(e)
+            print 'Waiting for server...'
+            time.sleep(0.1)
+
+    return server
+
 
 if __name__ == "__main__":
     run_server(background=False)

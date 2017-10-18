@@ -33,7 +33,7 @@ class Main:
     url = "/"
     window_state="normal"
     icon = globaldata.ICON
-    
+
     def __init__(self):
         try:
             opts, args = getopt.gnu_getopt(sys.argv[1:], 'hs:vt:w:i:c', ['help', 'screen=',
@@ -43,7 +43,7 @@ class Main:
             print msg
             print 'for help use --help'
             sys.exit(2)
-	
+
         if len(args):
             self.url=args[0]
 
@@ -57,16 +57,16 @@ class Main:
 
             elif o in ('-s', '--screen'):
                 args = a.split('x')
-                
+
                 if len(args) != 2:
                     self.help()
-                
+
                 for i in args:
                     if not i.isdigit():
                         self.help()
-                
+
                 self.width, self.height = args
-                
+
                 #Window Size
                 self.width = int(self.width)
                 self.height = int(self.height)
@@ -84,11 +84,11 @@ class Main:
                     globaldata.ICON = a
             elif o in ('-c','--compatibility-mode'):
                     globaldata.COMPAT = True
-    
+
         #Create data folder if doesn't exists...
         if not os.path.isdir(globaldata.DATA_DIR):
             os.mkdir(globaldata.DATA_DIR)
-            
+
         #construct window
         if self.toolkit == "auto":
             try:
@@ -96,39 +96,39 @@ class Main:
                 has_qt5 = True
             except ImportError:
                 has_qt5 = False
-            
+
             try:
                 from bbv.ui import gtk2
                 has_gtk2 = True
             except ImportError:
                 has_gtk2 = False
-            
+
             if not(has_qt5) and not(has_gtk2):
                 print >> sys.stderr, ('bbv needs PyGTK or PyQt '
                                       'to run. Please install '
                                       'the latest stable version')
                 sys.exit(1)
-            
+
             elif has_qt5:
                 self.window = qt5.Window()
             elif has_gtk2:
                 self.window = gtk2.Window()
-            
+
         elif self.toolkit == "qt5":
             try:
                 from bbv.ui import qt5
                 has_qt5 = True
-            except ImportError:	
+            except ImportError:
                 has_qt5 = False
-            
+
             if not has_qt5:
                 from bbv.ui import qt5
                 print >> sys.stderr, ('bbv needs PyQt '
                                       'to run. Please install '
                                       'the latest stable version')
-                
+
                 sys.exit(1)
-            
+
             self.window = qt5.Window()
 
         elif self.toolkit == "gtk2":
@@ -137,24 +137,24 @@ class Main:
                 has_gtk2 = True
             except ImportError:
                 has_gtk2 = False
-            
+
             if not has_gtk2:
                 print >> sys.stderr, ('bbv needs PyGTK '
                                       'to run. Please install '
                                       'the latest stable version')
-                
+
                 sys.exit(1)
-            
+
             self.window = gtk2.Window()
-	
-	
+
+
     def help(self):
         print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt5|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL'
         sys.exit()
-        
-    def run(self, server=True):
-        if server:
-            run_server()
+
+    def run(self, start_server=True):
+        server = run_server() if start_server else None
+
         self.window.set_size(self.width,self.height)
         self.window.show(self.window_state)
         if self.url.find('://') == -1:
@@ -163,4 +163,6 @@ class Main:
             self.url = "http://%s:%s%s" %(globaldata.ADDRESS(),globaldata.PORT(),self.url)
         self.window.load_url(self.url)
         globaldata.ICON = self.icon
-        sys.exit(self.window.run())
+        self.window.run()
+        if server:
+            server.stop()
