@@ -73,7 +73,8 @@ class Window(BaseWindow):
             self.web.setWindowIcon(self.web.icon())
 
     def title_changed(self, title):
-        self.web.setWindowTitle(title)
+        if title:
+            self.web.setWindowTitle(title)
 
     def load_url(self,url):
         self.url=QUrl.fromEncoded(url)
