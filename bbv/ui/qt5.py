@@ -37,6 +37,7 @@ class Window(BaseWindow):
         self.web = QWebView()
         self.icon = QIcon(ICON)
         QWebSettings.setIconDatabasePath(DATA_DIR)
+        self.web.setWindowIcon(self.icon)
         self.web.titleChanged.connect(self.title_changed)
         self.web.iconChanged.connect(self.icon_changed)
         self.web.page().windowCloseRequested.connect(self.close_window)
