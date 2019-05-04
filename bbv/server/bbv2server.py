@@ -20,7 +20,6 @@ import web
 import sys
 import socket
 import threading
-import inspect
 import time
 from . import views
 import os

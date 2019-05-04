@@ -30,7 +30,7 @@ if os.path.isdir(os.sep.join((PROGDIR, ".hg"))):
             "hg heads --template '{rev}'", stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         stdout, stderr = po.communicate()
         APP_VERSION += ' (DEV. VERSION) rev %s' % stdout
-    except:
+    except Exception:
         pass
 
 # TODO: Check portability issues

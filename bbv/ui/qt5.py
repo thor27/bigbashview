@@ -19,13 +19,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import os
-from PyQt5.QtCore import QObject, QUrl
+from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
-from bbv.globals import ICON, DATA_DIR
+from bbv.globals import ICON
 from bbv.ui.base import BaseWindow
 
 

@@ -21,7 +21,6 @@
 import sys
 import os
 import getopt
-import re
 
 from bbv import globals as globaldata
 from bbv.server.bbv2server import run_server

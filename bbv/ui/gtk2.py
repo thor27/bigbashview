@@ -18,11 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from bbv.ui.base import BaseWindow
-from bbv.globals import *
 import webkit
 import gtk
 import sys
-import os
 
 import pygtk
 pygtk.require('2.0')
@@ -40,7 +38,7 @@ class Window(BaseWindow):
         self.window.connect("destroy-event", self.close_window)
         self.window.connect("delete-event", self.close_window)
 
-        #self.webview.connect("icon_changed", self.icon_clicked)
+        # self.webview.connect("icon_changed", self.icon_clicked)
 
     def show(self, *args):
         # TODO Change window state when called

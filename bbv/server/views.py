@@ -95,7 +95,7 @@ class execute_handler(url_handler):
         return ('', '')
 
     def called(self, options, content, query):
-        wait = not 'background' in options
+        wait = 'background' not in options
         (stdout, stderr) = self._execute(
             content, wait=wait, extra_env=get_env_for_shell(query))
         if 'close' in options:

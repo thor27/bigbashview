@@ -6,7 +6,7 @@ def get_env_for_shell(query, prefix='p_'):
 
     def join_options(opt):
         name = prefix+to_s(opt[0])
-        values = ";".join([to_s(x).replace(';', '\;') for x in opt[1]])
+        values = ";".join([to_s(x).replace(';', '\\;') for x in opt[1]])
         return name, values
 
     return dict(list(map(join_options, list(query.items()))))
