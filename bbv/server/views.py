@@ -23,20 +23,22 @@ import os
 import web
 from .parser import parser
 from .utils import get_env_for_shell
+from .utils import to_s
 
 try:
     from bbv import globals as globaldata
 except ImportError:
     from . import globaldata
 
+
 class url_handler(object):
     __url__ = '/'
 
     def GET(self, name=''):
-        return self.parse_and_call(web.ctx.query[1:],name)
+        return self.parse_and_call(web.ctx.query[1:], name)
 
     def POST(self, name=''):
-        return self.parse_and_call(web.data(),name)
+        return self.parse_and_call(web.data(), name)
 
     def parse_and_call(self,qs,name):
         qs = parse_qs(qs)
@@ -66,9 +68,14 @@ class url_handler(object):
 
 class content_handler(url_handler):
     __url__='/content(.*)'
+
     def called(self,options,content,query):
         with open(content) as arq:
-            return arq.read()
+            try:
+                return arq.read()
+            except UnicodeDecodeError:
+                with open(content, 'rb') as arq:
+                    return arq.read()
 
 class execute_handler(url_handler):
     __url__='/execute(.*)'
@@ -88,7 +95,7 @@ class execute_handler(url_handler):
         wait = not 'background' in options
         (stdout, stderr) = self._execute(content, wait=wait,extra_env=get_env_for_shell(query))
         if 'close' in options:
-            if wait and stdout.decode('utf-8').find('False') != -1:
+            if wait and to_s(stdout).find('False') != -1:
                 return stdout
             os.kill(os.getpid(),15)
         if not wait:

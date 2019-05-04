@@ -23,20 +23,18 @@ import os
 from PyQt5.QtCore import QObject, QUrl
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWebKit import QWebSettings
-from PyQt5.QtWebKitWidgets import QWebView
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 from bbv.globals import ICON, DATA_DIR
 from bbv.ui.base import BaseWindow
 
+
 class Window(BaseWindow):
     def __init__(self):
-        self.debug=1
         self.app = QApplication(sys.argv)
         self.desktop= QApplication.desktop()
-        self.web = QWebView()
+        self.web = QWebEngineView()
         self.icon = QIcon(ICON)
-        QWebSettings.setIconDatabasePath(DATA_DIR)
         self.web.setWindowIcon(self.icon)
         self.web.titleChanged.connect(self.title_changed)
         self.web.iconChanged.connect(self.icon_changed)
