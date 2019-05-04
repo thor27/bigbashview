@@ -2,12 +2,14 @@
 import pygtk
 import gtk
 
-def format_color_string( Color ):
-	return "rgb(%s,%s,%s)" % (Color.red /256, Color.green/256,  Color.blue/256)
-	
-def format_color_key( key, Color):
-	return "%s%s}\n" % (key, format_color_string( Color ))
-	
+
+def format_color_string(Color):
+    return "rgb(%s,%s,%s)" % (Color.red / 256, Color.green/256,  Color.blue/256)
+
+
+def format_color_key(key, Color):
+    return "%s%s}\n" % (key, format_color_string(Color))
+
 
 invisible1 = gtk.Invisible()
 style1 = invisible1.style
@@ -15,7 +17,7 @@ style1 = invisible1.style
 button1 = gtk.Button()
 buttonstyle = button1.style
 
-scroll1 =  gtk.VScrollbar()
+scroll1 = gtk.VScrollbar()
 scrollbarstyle = scroll1.style
 
 menu1 = gtk.Menu()
@@ -34,11 +36,11 @@ a:hover {text-decoration:underline;}
 
 
 user_reg += format_color_key('a:link {color: ', style1.bg[gtk.STATE_SELECTED])
-user_reg += format_color_key('body {background-color:', style1.bg[gtk.STATE_NORMAL])
+user_reg += format_color_key('body {background-color:',
+                             style1.bg[gtk.STATE_NORMAL])
 user_reg += format_color_key('body {color:', style1.fg[gtk.STATE_NORMAL])
-user_reg += format_color_key('table.kdecolor {background-color:', style1.fg[gtk.STATE_INSENSITIVE])
+user_reg += format_color_key(
+    'table.kdecolor {background-color:', style1.fg[gtk.STATE_INSENSITIVE])
 
 
 print(user_reg)
-
-

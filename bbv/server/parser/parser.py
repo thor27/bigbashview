@@ -41,13 +41,15 @@ def execute(command, context, context_ext):
     for key in context:
         env[key] = str(context[key])
     env.update(get_env_for_shell(context['request']))
-    po = subprocess.Popen(command.encode('utf-8'), stdin=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
+    po = subprocess.Popen(command.encode('utf-8'), stdin=None,
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, env=env)
     (stdout, stderr) = po.communicate()
     stdout = to_s(stdout)
     stderr = to_s(stderr)
     sys.stderr.write(stderr)
     mode = stderr.split('\n')[0].strip()
     return parse_output(stdout, mode)
+
 
 def sh_expression(command):
     def compiler(target, engine):
@@ -60,10 +62,11 @@ def sh_expression(command):
         return [ast.Assign(targets=[target], value=value)]
     return compiler
 
+
 if is_chameleon_available:
     PageTemplate.expression_types['sh'] = sh_expression
 
-    def parse(template,qs):
+    def parse(template, qs):
         return PageTemplate(template)(request=qs)
 else:
-    parse = lambda template,qs: template
+    def parse(template, qs): return template

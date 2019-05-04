@@ -7,7 +7,7 @@ if __name__ == "__main__":
         print('usage: %s ip:port')
         exit()
 
-    ip,port = argv[1].split(':')
+    ip, port = argv[1].split(':')
     del argv[1]
     globaldata.ADDRESS = lambda: ip
     globaldata.PORT = lambda: port

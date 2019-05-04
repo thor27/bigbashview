@@ -32,7 +32,7 @@ from bbv.ui.base import BaseWindow
 class Window(BaseWindow):
     def __init__(self):
         self.app = QApplication(sys.argv)
-        self.desktop= QApplication.desktop()
+        self.desktop = QApplication.desktop()
         self.web = QWebEngineView()
         self.icon = QIcon(ICON)
         self.web.setWindowIcon(self.icon)
@@ -41,7 +41,7 @@ class Window(BaseWindow):
         self.web.page().windowCloseRequested.connect(self.close_window)
         self.web.page().geometryChangeRequested.connect(self.set_geometry)
 
-    def show(self,window_state):
+    def show(self, window_state):
         if window_state == "maximized" and not self.web.isMaximized():
             self.web.showNormal()
             self.web.showMaximized()
@@ -57,9 +57,9 @@ class Window(BaseWindow):
         return self.app.exec_()
 
     def set_debug(self, debuglevel):
-        self.debug=debuglevel
+        self.debug = debuglevel
 
-    def set_geometry(self,geom ):
+    def set_geometry(self, geom):
         self.web.setGeometry(geom)
 
     def close_window(self):
@@ -75,17 +75,17 @@ class Window(BaseWindow):
         if title:
             self.web.setWindowTitle(title)
 
-    def load_url(self,url):
-        self.url=QUrl.fromEncoded(url.encode("utf-8"))
+    def load_url(self, url):
+        self.url = QUrl.fromEncoded(url.encode("utf-8"))
         self.web.setUrl(self.url)
 
-    def set_size(self,width, height):
-        if width<=0:
-            width=640
-        if height<=0:
-            height=480
+    def set_size(self, width, height):
+        if width <= 0:
+            width = 640
+        if height <= 0:
+            height = 480
 
-        left=(self.desktop.width()-width)/2
-        top=(self.desktop.height()-height)/2
+        left = (self.desktop.width()-width)/2
+        top = (self.desktop.height()-height)/2
 
-        self.web.setGeometry(left,top,width,height)
+        self.web.setGeometry(left, top, width, height)
