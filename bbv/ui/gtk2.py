@@ -69,7 +69,7 @@ class Window(BaseWindow):
 
     def load_url(self, url):
         self.webview.open(url)
-        print url
+        print(url)
         
     def set_size(self, width, height):
         if width<=0:

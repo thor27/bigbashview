@@ -39,6 +39,6 @@ user_reg += format_color_key('body {color:', style1.fg[gtk.STATE_NORMAL])
 user_reg += format_color_key('table.kdecolor {background-color:', style1.fg[gtk.STATE_INSENSITIVE])
 
 
-print user_reg
+print(user_reg)
 
 

@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from urlparse import parse_qs
-from urlparse import unquote
+from urllib.parse import parse_qs
+from urllib.parse import unquote
 import subprocess
 import os
 import web
@@ -27,7 +27,7 @@ from .utils import get_env_for_shell
 try:
     from bbv import globals as globaldata
 except ImportError:
-    import globaldata
+    from . import globaldata
 
 class url_handler(object):
     __url__ = '/'

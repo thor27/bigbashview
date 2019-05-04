@@ -39,9 +39,9 @@ class Main:
             opts, args = getopt.gnu_getopt(sys.argv[1:], 'hs:vt:w:i:c', ['help', 'screen=',
                                        'version', "toolkit=", 'window_state=', 'icon=', 'compatibility-mode' ])
 
-        except getopt.error, msg:
-            print msg
-            print 'for help use --help'
+        except getopt.error as msg:
+            print(msg)
+            print('for help use --help')
             sys.exit(2)
 
         if len(args):
@@ -52,7 +52,7 @@ class Main:
                 self.help()
 
             elif o in ('-v','--version'):
-                print globaldata.APP_NAME, globaldata.APP_VERSION
+                print(globaldata.APP_NAME, globaldata.APP_VERSION)
                 sys.exit()
 
             elif o in ('-s', '--screen'):
@@ -104,9 +104,9 @@ class Main:
                 has_gtk2 = False
 
             if not(has_qt5) and not(has_gtk2):
-                print >> sys.stderr, ('bbv needs PyGTK or PyQt '
+                print(('bbv needs PyGTK or PyQt '
                                       'to run. Please install '
-                                      'the latest stable version')
+                                      'the latest stable version'), file=sys.stderr)
                 sys.exit(1)
 
             elif has_qt5:
@@ -123,9 +123,9 @@ class Main:
 
             if not has_qt5:
                 from bbv.ui import qt5
-                print >> sys.stderr, ('bbv needs PyQt '
+                print(('bbv needs PyQt '
                                       'to run. Please install '
-                                      'the latest stable version')
+                                      'the latest stable version'), file=sys.stderr)
 
                 sys.exit(1)
 
@@ -139,9 +139,9 @@ class Main:
                 has_gtk2 = False
 
             if not has_gtk2:
-                print >> sys.stderr, ('bbv needs PyGTK '
+                print(('bbv needs PyGTK '
                                       'to run. Please install '
-                                      'the latest stable version')
+                                      'the latest stable version'), file=sys.stderr)
 
                 sys.exit(1)
 
@@ -149,7 +149,7 @@ class Main:
 
 
     def help(self):
-        print sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt5|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL'
+        print(sys.argv[0], '[-h|--help] [-s|--screen=widthxheight] [-v|--version] [-t|--toolkit=[gtk2|qt5|]] [-w|--window_state=[normal|maximized|fullscreen]] [-i|--icon image] [-c|--compatibility-mode] URL')
         sys.exit()
 
     def run(self, start_server=True):

@@ -4,7 +4,7 @@ from bbv import globals as globaldata
 
 if __name__ == "__main__":
     if len(argv) < 2:
-        print 'usage: %s ip:port'
+        print('usage: %s ip:port')
         exit()
     
     ip,port = argv[1].split(':')
