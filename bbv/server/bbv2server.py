@@ -81,7 +81,7 @@ def run_server(ip='127.0.0.1',background=True):
             soc.close()
             break
         except socket.error as e:
-            if e[0] != 98:
+            if e.errno != 98:
                 raise socket.error(e)
             print('Port %d already in use, trying next one' %port)
 
@@ -104,7 +104,7 @@ def run_server(ip='127.0.0.1',background=True):
             con.close()
             break
         except socket.error as e:
-            if e[0] != 111:
+            if e.errno != 111:
                 raise socket.error(e)
             print('Waiting for server...')
             time.sleep(0.1)

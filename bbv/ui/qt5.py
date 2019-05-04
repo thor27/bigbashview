@@ -78,7 +78,7 @@ class Window(BaseWindow):
             self.web.setWindowTitle(title)
 
     def load_url(self,url):
-        self.url=QUrl.fromEncoded(url)
+        self.url=QUrl.fromEncoded(url.encode("utf-8"))
         self.web.setUrl(self.url)
 
     def set_size(self,width, height):
